@@ -50,7 +50,7 @@ test('OpenClaw checks the gateway and routes messages using the selected mode', 
   await settings.getByRole('button', { name: 'Check OpenClaw connection' }).click();
   await expect(settings.getByRole('status')).toContainText('Gateway reachable');
   await expect(settings.getByText(/This checks the gateway connection only/)).toBeVisible();
-  await expect(settings.getByText(/8 curated University of Minnesota Twin Cities profiles/)).toBeVisible();
+  await expect(settings.getByText(/Faculty search uses public university pages/)).toBeVisible();
   expect(agentCount).toBe(0);
   expect(probeCount).toBe(1);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);

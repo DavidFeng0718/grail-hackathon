@@ -164,3 +164,10 @@ export function webFacultyMatchesSchool(id: string, school: string): boolean {
   const normalize = (value: string) => value.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
   return [item.requestedSchool, item.professor.university].some(value => normalize(value) === normalize(school));
 }
+
+/** Register only server-retrieved, evidence-checked public faculty facts. */
+export function registerWebProfessor(professor: Professor, requestedSchool: string): void {
+  registry.set(professor.id, { professor: structuredClone(professor), requestedSchool, savedAt: Date.now() });
+  for (const [id, item] of registry) if (Date.now() - item.savedAt > MAX_AGE) registry.delete(id);
+  while (registry.size > 200) registry.delete(registry.keys().next().value!);
+}

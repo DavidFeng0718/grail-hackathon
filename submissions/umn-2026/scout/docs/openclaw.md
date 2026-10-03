@@ -58,12 +58,12 @@ If choosing another supported model, update both `agents.defaults.model.primary`
 
 - Eight starter research directions with introductory resources.
 - A weekly plan based on the student's time budget.
-- Eight curated University of Minnesota Twin Cities faculty profiles, with sources and unknown recruitment status.
+- Online faculty search and page reading with source evidence and retrieval dates; eight curated UMN profiles remain a labeled fallback.
 - Honest editable email drafts based on confirmed student information.
 - PDF resume reading in the browser, with preview and confirmation before use.
 - Browser-local progress, export, and clear controls.
 
-OpenClaw mode does not perform faculty web search yet. A different university receives a clear catalog-gap explanation; it never silently substitutes UMN. The legacy direct API adapter retains a separate API-backed faculty search, but is no longer offered in Scout's interface.
+OpenClaw mode now exposes search_faculty_web, read_faculty_page and save_web_faculty. They use Firecrawl keyless starter access, with no extra API key. Search takes the confirmed school and a short public topic; the full CV/profile is not automatically sent to Firecrawl. Pages must be read and supporting excerpts supplied before a card is saved. A different university is searched explicitly, never silently replaced by UMN. Rate limits and retrieval failures remain visible. Run npm run openclaw:setup to upgrade the exact project-owned older tool allowlist; customized allowlists require adding the three names manually. Restart the gateway if it has not reloaded the configuration. The legacy direct API adapter retains a separate API-backed faculty search, but is no longer offered in Scout's interface.
 
 ## Local files and privacy
 
@@ -79,7 +79,7 @@ Private state and environment files are ignored by Git. The token stays on the a
 
 The generated configuration binds to localhost, enables the Responses endpoint, disables native execution/file/messaging tools, skills, memory plugins, cron, and heartbeat, and exposes only the app's eleven research tools. The launcher removes ambient OpenAI API-key fallback variables from the gateway process. No background service is installed; stop the gateway terminal with Ctrl+C.
 
-Rerunning setup preserves the gateway token and account settings. It upgrades the exact older four-tool allowlist to the current eleven tools; customized allowlists are left alone. `.env` and shell environment values override `.env.openclaw`; remove stale `OPENCLAW_*` entries there if the app connects to the wrong gateway. Restart the app after changing environment files.
+Rerunning setup preserves the gateway token and account settings. It upgrades the exact older four-tool and eleven-tool allowlists to the current fourteen tools; customized allowlists are left alone. `.env` and shell environment values override `.env.openclaw`; remove stale `OPENCLAW_*` entries there if the app connects to the wrong gateway. Restart the app after changing environment files.
 
 ## Use an existing local gateway
 
@@ -95,7 +95,7 @@ Set `OPENCLAW_BASE_URL`, `OPENCLAW_GATEWAY_TOKEN`, and `OPENCLAW_AGENT_ID` in th
 | Gateway reachable, but a message fails | Complete account login, check the model catalog and gateway terminal, then retry. Connectivity alone does not prove model access. |
 | Rate limited | Wait for the authorized provider/account limit to reset. The app does not silently switch billing modes. |
 | Responses API unavailable | Enable the Responses endpoint and restart the gateway. |
-| No professors at your school | This is a catalog coverage gap, not evidence that your university has no research opportunities. |
+| No professors at your school | Try a clearer university name or broader public topic. A failed search or lack of supporting evidence is not proof that no opportunities exist. |
 
 ## Verify changes
 

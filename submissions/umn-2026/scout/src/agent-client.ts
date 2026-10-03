@@ -1,6 +1,9 @@
 import type { AgentRequest, AgentResponse } from '../shared/types';
 
 const steps: Record<string, string> = {
+  search_faculty_web: 'Searched public university pages',
+  read_faculty_page: 'Read a faculty source page',
+  save_web_faculty: 'Saved a source-backed faculty card',
   get_student_context: 'Read your background and saved work',
   update_student_profile: 'Updated your background',
   search_research_directions: 'Looked up research directions',

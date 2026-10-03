@@ -21,3 +21,9 @@
 .faculty-toolbar{flex-wrap:wrap;gap:12px}.faculty-toolbar .search-field{max-width:100%}
 
 .faculty-guidance{padding:14px 0;font-size:12px;line-height:1.7}.faculty-guidance strong{display:block;margin-top:8px}.faculty-guidance small{color:var(--muted)}.profile-details dd{overflow-wrap:anywhere;max-height:140px;overflow:auto;white-space:pre-line}
+.background-review { margin: 0 0 24px; padding: 18px; border: 1px solid var(--border, #dce4d2); border-radius: 12px; }
+.background-review p { margin: 0 0 12px; }
+.direction-basis { margin: 12px 0; font-size: 13px; }
+.direction-basis summary { cursor: pointer; }
+.direction-basis blockquote { margin: 12px 0; padding: 8px 12px; border-left: 2px solid #879c70; white-space: pre-wrap; overflow-wrap: anywhere; }
+.profile-form .modal-actions { flex-wrap: wrap; }

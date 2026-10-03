@@ -32,5 +32,14 @@ test('isolated setup protects credentials and preserves edits and the token on r
     assert.deepEqual(JSON.parse(await readFile(second.configPath, 'utf8')).tools.allow, clientTools);
     assert.equal(rerun.OPENCLAW_GATEWAY_TOKEN, env.OPENCLAW_GATEWAY_TOKEN);
     assert.equal(rerun.OPENCLAW_BASE_URL, 'http://127.0.0.1:18795');
+    const v2 = JSON.parse(await readFile(first.configPath, 'utf8'));
+    v2.tools.allow = clientTools.filter(name => !['search_faculty_web', 'read_faculty_page', 'save_web_faculty'].includes(name));
+    await writeFile(first.configPath, JSON.stringify(v2));
+    await createLocalSetup(root);
+    assert.deepEqual(JSON.parse(await readFile(first.configPath, 'utf8')).tools.allow, clientTools);
+    v2.tools.allow = ['custom_tool'];
+    await writeFile(first.configPath, JSON.stringify(v2));
+    await createLocalSetup(root);
+    assert.deepEqual(JSON.parse(await readFile(first.configPath, 'utf8')).tools.allow, ['custom_tool']);
   } finally { await rm(root, { recursive: true, force: true }); }
 });

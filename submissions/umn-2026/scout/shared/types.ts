@@ -13,6 +13,7 @@ export interface StudentProfile {
 export interface Source { title: string; url: string; checkedAt: string }
 export interface Resource { title: string; url: string; description: string }
 export interface Direction {
+  basis?: { quotes: string[]; context: string };
   catalogDirectionId?: string | null;
   id: string;
   title: string;

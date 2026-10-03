@@ -3,6 +3,7 @@ import { AgentError } from './errors';
 import { agentInstructions, agentTools, ResearchTurn } from './research-agent';
 
 export interface OpenClawOptions {
+  webFetchImpl?: typeof fetch;
   baseUrl?: string;
   gatewayToken?: string;
   agentId?: string;
@@ -72,7 +73,7 @@ export async function checkOpenClawConnection(options: OpenClawOptions = {}): Pr
 
 export async function runOpenClaw(request: AgentRequest, options: OpenClawOptions = {}): Promise<AgentResponse> {
   const config = configuration(options);
-  const turn = new ResearchTurn(request);
+  const turn = new ResearchTurn(request, options.webFetchImpl);
   const history = turn.state.messages.slice(-16).map(message => ({ type: 'message', role: message.role, content: message.content }));
   const input: unknown[] = [
     { type: 'message', role: 'developer', content: agentInstructions },
@@ -86,7 +87,7 @@ export async function runOpenClaw(request: AgentRequest, options: OpenClawOption
   options.signal?.addEventListener('abort', abort, { once: true });
   if (options.signal?.aborted) controller.abort();
   const callIds = new Set<string>();
-  const maxRounds = 10;
+  const maxRounds = 16; // Web discovery may need search, several pages, evidence repair and personalization.
   let previousResponseId: string | undefined;
   let continuation: unknown[] = [];
   try {
@@ -118,7 +119,7 @@ export async function runOpenClaw(request: AgentRequest, options: OpenClawOption
             result.toolActivity.unshift('Connected to local OpenClaw');
             return result;
           }
-          output = turn.execute(call.name!, args);
+          output = await turn.executeAsync(call.name!, args, controller.signal);
         } catch (error) {
           output = { ok: false, error: error instanceof SyntaxError ? 'Tool arguments must be valid JSON.' : error instanceof Error ? error.message : 'Invalid or unfinished research step. Correct the arguments or ask for missing information.' };
         }

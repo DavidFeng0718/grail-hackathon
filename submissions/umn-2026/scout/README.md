@@ -15,7 +15,7 @@
 
 ## Summary
 
-Scout helps undergraduates turn an initial research interest into concrete research directions, a manageable weekly preparation plan, evidence-backed faculty matches, and an editable outreach email. Its local web interface and command-line agent use OpenClaw to create and revise saved work through validated tools; students can confirm background information extracted from a PDF resume, compare directions, adjust their time budget, and export their work. The prototype includes eight sourced University of Minnesota Twin Cities faculty profiles, makes catalog gaps explicit, and leaves final review and email sending to the student.
+Scout helps undergraduates turn research interests and confirmed resume experience into concrete research directions, manageable preparation plans, source-backed faculty matches, and editable outreach drafts. Its local web interface and CLI use an OpenClaw agent with validated tools to create and revise saved work. For faculty discovery, the agent searches public university pages, reads supporting evidence, and saves dated source links before personalizing a card. Eight curated UMN profiles remain an explicitly labeled fallback. Students review all factual claims and send any outreach themselves.
 
 An English research exploration agent for undergraduates. It connects an initial interest to a few research directions, an achievable weekly plan, relevant faculty, and a truthful outreach draft.
 
@@ -80,7 +80,7 @@ Keep the gateway terminal open. In another terminal run `npm run dev`, open **ht
 
 Setup installs OpenClaw inside this project and creates a private local gateway. Login opens OpenClaw's official ChatGPT/Codex OAuth flow. The app does not read your Codex credentials or ask for a password. Subscription usage depends on the account you authorize and its available models. An OpenAI Platform API key is not required for this mode.
 
-OpenClaw faculty matching currently uses the eight verified UMN examples. Other schools still receive interest exploration and preparation guidance, with an explicit catalog-gap message at matching. See the [OpenClaw setup guide](docs/openclaw.md) for account options, troubleshooting, and testing.
+The OpenClaw agent can search public university pages, read official faculty/lab sources, and save source-backed cards through Firecrawl keyless starter access. It also retains eight curated UMN profiles as an explicitly labeled fallback. Public search can be rate limited; unavailable searches produce an explicit error. See the [OpenClaw setup guide](docs/openclaw.md) for account options, troubleshooting, and testing.
 
 ## Legacy API adapter
 
@@ -93,18 +93,18 @@ OpenClaw faculty matching currently uses the eight verified UMN examples. Other 
 - Select a direction and create a weekly plan that respects available time.
 - Complete tasks, ask for a simpler plan, and return to an earlier stage.
 - Tell the agent your university when you are ready to find faculty. There is no default school.
-- Find faculty in the curated University of Minnesota Twin Cities sample catalog, with an explicit coverage gap for other schools.
+- Search public faculty pages for the confirmed university, read source evidence, and save faculty cards with retrieval dates. The curated UMN catalog remains available as a labeled fallback.
 - Read each professor's evidence, source links, and source-check or retrieval date. Research relevance does not imply an available position.
 - Draft, edit, copy, or download an outreach email. The app never sends email.
 - Read and confirm a PDF resume or enter background information, save progress in the browser, and export or clear your workspace.
 
-Scout authors and revises concrete research-direction cards, including topics outside the starter catalog. The catalog supplies eight optional resource categories and eight University of Minnesota Twin Cities faculty profiles; it does not limit the proposed questions. Faculty/resource retrieval still uses this catalog and does not search the web or verify current recruitment. See [source notes](docs/sources.md) for catalog coverage and verification details.
+Scout authors and revises concrete research-direction cards, including topics outside the starter catalog. The catalog supplies eight optional resource categories and eight University of Minnesota Twin Cities faculty profiles; it does not limit the proposed questions. Faculty discovery can search and read the web; verified learning resources still use the catalog. Recruitment is not verified. See [source notes](docs/sources.md) for catalog coverage and verification details.
 
 ## Data and privacy
 
 The browser retains your confirmed profile, conversation, plan, and draft so you can continue later. Clear the workspace to remove the saved session. Imported text becomes part of your profile only when you confirm it. PDF resumes are parsed locally in the browser (up to 5 MB, 15 pages, and 16,000 extracted characters). Review the editable preview, confirm it, and save your profile. No PDF is uploaded. Confirmed text is included in subsequent agent requests. Scanned PDFs require OCR first.
 
-Demo mode stays on your local app server. With the research agent, your conversation and profile pass through the local gateway to the configured model provider; OpenClaw may retain transcripts and authentication data in `.openclaw-local/`. Clearing browser data does not erase those gateway records. The app keeps API keys and gateway tokens out of browser code and never sends messages to professors. Avoid adding personal information that is unnecessary for research exploration.
+Demo mode stays on your local app server. With the research agent, your conversation and profile pass through the local gateway to the configured model provider; OpenClaw may retain transcripts and authentication data in `.openclaw-local/`. Clearing browser data does not erase those gateway records. Public faculty queries (university and short research topic) and page URLs are sent to Firecrawl; full profiles and resumes are not automatically included in search requests. Its keyless starter tier can impose limits. Web faculty records are cached on the app server for up to six hours and need a fresh lookup after expiry or server restart. The app keeps API keys and gateway tokens out of browser code and never sends messages to professors. Avoid adding personal information that is unnecessary for research exploration.
 
 The catalog records source verification dates; it does not continuously monitor recruitment. Confirm current availability and application requirements directly with a lab.
 

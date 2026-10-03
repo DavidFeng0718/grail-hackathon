@@ -49,7 +49,7 @@ export async function createLocalSetup(root) {
   const oldConfig = await readOptional(configPath);
   const config = oldConfig ? JSON.parse(oldConfig) : makeConfig(root);
   // Migrate only the exact project-owned v1 allowlist, retaining all account/model settings.
-  if (oldConfig && JSON.stringify(config.tools?.allow) === JSON.stringify(legacyTools)) {
+  if (oldConfig && (JSON.stringify(config.tools?.allow) === JSON.stringify(legacyTools) || JSON.stringify(config.tools?.allow) === JSON.stringify(clientTools.filter(name => !['search_faculty_web', 'read_faculty_page', 'save_web_faculty'].includes(name))))) {
     config.tools.allow = clientTools;
     await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`, { mode: 0o600 });
   }

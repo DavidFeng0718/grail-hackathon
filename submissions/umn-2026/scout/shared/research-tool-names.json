@@ -1,4 +1,7 @@
 [
+  "search_faculty_web",
+  "read_faculty_page",
+  "save_web_faculty",
   "get_student_context",
   "update_student_profile",
   "search_research_directions",
